@@ -1,0 +1,26 @@
+language: go
+
+env:
+  - GO111MODULE=on
+
+go:
+  - 1.13.x
+
+before_script:
+  - go get -u golang.org/x/lint/golint
+
+script:
+  - GOOS=linux go build -o ~/build/simplifi/looking-glass/build/linux/looking-glass -i -v -ldflags="-X github.com/simplifi/looking-glass/version.Version=$(git describe --tags --dirty)" github.com/simplifi/looking-glass
+  - go test -v ./...
+  - golint -set_exit_status
+
+before_deploy:
+  - GOOS=linux go build -o ~/build/simplifi/looking-glass/build/linux/looking-glass -i -v -ldflags="-X github.com/simplifi/looking-glass/version.Version=$(git describe --tags --dirty)" github.com/simplifi/looking-glass
+deploy:
+  provider: releases
+  api_key: ${GITHUB_OAUTH_KEY}
+  file:
+    - ~/build/simplifi/looking-glass/build/linux/looking-glass
+  skip_cleanup: true
+  on:
+    tags: true

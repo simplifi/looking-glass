@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -90,15 +91,21 @@ func (agt *Agent) Start() {
 
 				// download object to local storage
 				localFile := path.Join(agt.localStoragePath, obj)
-				agt.downloadS3Obj(obj, localFile)
+				s3Err := agt.downloadS3Obj(obj, localFile)
+				if s3Err != nil {
+					log.Printf("ERROR: Failed to download S3 object - %v", s3Err)
+				}
 
 				// upload to artifactory
-				agt.uploadToArtifactory(localFile, obj)
+				rtErr := agt.uploadToArtifactory(localFile, obj)
+				if rtErr != nil {
+					log.Printf("ERROR: Failed to upload to Artifactory - %v", rtErr)
+				}
 
 				// clean up temp storage
-				err := os.RemoveAll(agt.localStoragePath)
-				if err != nil {
-					log.Printf("ERROR: Failed to clean up temp storage - %v", err)
+				rmErr := os.RemoveAll(agt.localStoragePath)
+				if rmErr != nil {
+					log.Printf("ERROR: Failed to clean up temp storage - %v", rmErr)
 				}
 			} else {
 				log.Printf("INFO: [skip] %s", obj)
@@ -131,19 +138,19 @@ func (agt *Agent) getS3Objects() []string {
 	return objects
 }
 
-func (agt *Agent) downloadS3Obj(sourceObj string, targetPath string) {
+func (agt *Agent) downloadS3Obj(sourceObj string, targetPath string) error {
 	downloader := s3manager.NewDownloader(&agt.awsSession)
 
 	// Ensure the temporary download path exists
 	err := os.MkdirAll(path.Dir(targetPath), os.ModePerm)
 	if err != nil {
-		log.Printf("ERROR: failed to create file %q, %v", targetPath, err)
+		return err
 	}
 
 	// Create a file in which we will write the S3 Object contents
 	f, err := os.Create(targetPath)
 	if err != nil {
-		log.Printf("ERROR: failed to create file %q, %v", targetPath, err)
+		return err
 	}
 
 	// Download the object
@@ -151,13 +158,14 @@ func (agt *Agent) downloadS3Obj(sourceObj string, targetPath string) {
 		Bucket: aws.String(agt.agentConfig.AwsBucket),
 		Key:    aws.String(sourceObj),
 	})
-
 	if err != nil {
-		log.Printf("ERROR: failed to download file, %v", err)
+		return err
 	}
+
+	return nil
 }
 
-func (agt *Agent) uploadToArtifactory(sourceFile string, targetPath string) {
+func (agt *Agent) uploadToArtifactory(sourceFile string, targetPath string) error {
 	params := services.NewUploadParams()
 	params.Pattern = sourceFile
 	params.Target = fmt.Sprintf("%s/%s", agt.agentConfig.ArtifactoryRepo, targetPath)
@@ -165,8 +173,10 @@ func (agt *Agent) uploadToArtifactory(sourceFile string, targetPath string) {
 	_, _, totalFailed, err := agt.artifactoryManager.UploadFiles(params)
 
 	if err != nil || totalFailed > 0 {
-		log.Printf("ERROR: failed to upload file %q, %v", sourceFile, err)
+		return errors.New(fmt.Sprintf("ERROR: failed to upload file %q, %v", sourceFile, err))
 	}
+
+	return nil
 }
 
 func (agt *Agent) existsInArtifactory(filename string) bool {

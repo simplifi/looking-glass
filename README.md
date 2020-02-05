@@ -9,6 +9,8 @@ It is common for vendors to release binaries to an S3 bucket or FTP.  To prevent
 
 # Setup
 
+The latest version of looking-glass can be found on the [Releases](https://github.com/simplifi/looking-glass/releases) tab.
+
 First, you'll need to create a "Generic" repository in Artifactory, and ensure you have a user that can write to it.
 
 Second, you'll need to gather up the credentials for the S3 bucket you'd like to mirror (you'll need them for the config in the next step)

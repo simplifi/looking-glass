@@ -45,5 +45,4 @@ agents:
 	assert.Equal(t, 900, cfg.Agents[0].SleepDuration)
 	assert.Equal(t, "my-repo", cfg.Agents[0].ArtifactoryRepo)
 
-
 }

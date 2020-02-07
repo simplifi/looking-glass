@@ -35,14 +35,14 @@ type ArtifactoryConfig struct {
 }
 
 type AgentConfig struct {
-	Name            string   `mapstructure:"name"`
-	ArtifactoryRepo string   `mapstructure:"artifactory_repo"`
-	AwsBucket       string   `mapstructure:"aws_bucket"`
-	AwsPrefix       string   `mapstructure:"aws_prefix"`
-	AwsKey          string   `mapstructure:"aws_key"`
-	AwsSecret       string   `mapstructure:"aws_secret"`
-	AwsRegion       string   `mapstructure:"aws_region"`
-	SleepDuration   int      `mapstructure:"sleep_duration"`
+	Name            string `mapstructure:"name"`
+	ArtifactoryRepo string `mapstructure:"artifactory_repo"`
+	AwsBucket       string `mapstructure:"aws_bucket"`
+	AwsPrefix       string `mapstructure:"aws_prefix"`
+	AwsKey          string `mapstructure:"aws_key"`
+	AwsSecret       string `mapstructure:"aws_secret"`
+	AwsRegion       string `mapstructure:"aws_region"`
+	SleepDuration   int    `mapstructure:"sleep_duration"`
 }
 
 func Read(configPath string) (*Config, error) {

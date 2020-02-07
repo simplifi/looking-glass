@@ -21,9 +21,9 @@ import (
 
 type Agent struct {
 	artifactoryManager artifactory.ArtifactoryServicesManager
-	awsSession session.Session
-	agentConfig config.AgentConfig
-	localStoragePath string
+	awsSession         session.Session
+	agentConfig        config.AgentConfig
+	localStoragePath   string
 }
 
 func New(artifactoryConfig config.ArtifactoryConfig, agentConfig config.AgentConfig) (*Agent, error) {
@@ -74,7 +74,7 @@ func createArtifactoryManager(url string, apiKey string, userName string) (*arti
 
 func createAwsSession(awsKey string, awsSecret string, awsRegion string) (*session.Session, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(awsRegion),
+		Region:      aws.String(awsRegion),
 		Credentials: credentials.NewStaticCredentials(awsKey, awsSecret, ""),
 	})
 
@@ -113,7 +113,7 @@ func (agt *Agent) Start() {
 		}
 
 		log.Printf("INFO: Sleeping for %d seconds", agt.agentConfig.SleepDuration)
-		time.Sleep(time.Duration(agt.agentConfig.SleepDuration)*time.Second)
+		time.Sleep(time.Duration(agt.agentConfig.SleepDuration) * time.Second)
 	}
 }
 

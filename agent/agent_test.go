@@ -8,7 +8,7 @@ import (
 
 func TestAgentNew(t *testing.T) {
 	testArtifactoryCfg := config.ArtifactoryConfig{
-		Url:      "http://foo.bar",
+		URL:      "http://foo.bar",
 		UserName: "testing",
 		Key:      "123",
 	}

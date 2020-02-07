@@ -1,7 +1,6 @@
 package agent
 
 import (
-	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -19,6 +18,7 @@ import (
 	"time"
 )
 
+// Agent monitors a source for changes and pushes files to Artifactory
 type Agent struct {
 	artifactoryManager artifactory.ArtifactoryServicesManager
 	awsSession         session.Session
@@ -26,8 +26,9 @@ type Agent struct {
 	localStoragePath   string
 }
 
+// New Agent, pass in the ArtifactoryConfig, and AgentConfig
 func New(artifactoryConfig config.ArtifactoryConfig, agentConfig config.AgentConfig) (*Agent, error) {
-	artMgr, err := createArtifactoryManager(artifactoryConfig.Url, artifactoryConfig.Key, artifactoryConfig.UserName)
+	artMgr, err := createArtifactoryManager(artifactoryConfig.URL, artifactoryConfig.Key, artifactoryConfig.UserName)
 	if err != nil {
 		return nil, err
 	}
@@ -81,6 +82,7 @@ func createAwsSession(awsKey string, awsSecret string, awsRegion string) (*sessi
 	return sess, err
 }
 
+// Start the Agent
 func (agt *Agent) Start() {
 	for {
 		for _, obj := range agt.getS3Objects() {
@@ -173,7 +175,7 @@ func (agt *Agent) uploadToArtifactory(sourceFile string, targetPath string) erro
 	_, _, totalFailed, err := agt.artifactoryManager.UploadFiles(params)
 
 	if err != nil || totalFailed > 0 {
-		return errors.New(fmt.Sprintf("ERROR: failed to upload file %q, %v", sourceFile, err))
+		return fmt.Errorf("ERROR: failed to upload file %q, %v", sourceFile, err)
 	}
 
 	return nil

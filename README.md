@@ -54,7 +54,7 @@ This is where you tell looking-glass about the agent(s) configuration
 # Usage
 
 ### Basic Usage
-```shell script
+```
 Looking Glass (S3->Artifactory Mirror)
 
 Usage:
@@ -76,4 +76,21 @@ Use "looking-glass [command] --help" for more information about a command.
 looking-glass start -c /path/to/your/config.yml
 ```
 
+# Development
 
+### Compiling
+```shell script
+make build
+```
+
+### Running Tests
+To run all the standard tests:
+```shell script
+make test
+```
+
+### Releasing
+This project is using [goreleaser](https://goreleaser.com). GitHub release creation is automated using Travis CI. New releases are automatically created when new tags are pushed to the repo.
+```shell script
+$ TAG=0.1.0 make tag
+```

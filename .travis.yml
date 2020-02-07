@@ -8,17 +8,16 @@ go:
 
 before_script:
   - go get -u golang.org/x/lint/golint
+  - curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh
 
 script:
-  - GOOS=linux go build -o looking-glass -i -v -ldflags="-X github.com/simplifi/looking-glass/version.Version=$(git describe --tags --dirty)" github.com/simplifi/looking-glass
-  - go test -v ./...
-  - golint -set_exit_status
+  - make ci
 
+# Calls goreleaser to build and push artifacts
 deploy:
-  provider: releases
-  api_key: ${GITHUB_OAUTH_KEY}
-  file:
-    - looking-glass
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: script
+    skip_cleanup: true
+    script: make release
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = linux

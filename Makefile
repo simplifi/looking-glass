@@ -3,7 +3,7 @@ TAG?=""
 # Clean up any cruft left over from old builds
 .PHONY: clean
 clean:
-	@rm -rf looking-glass dist/
+	rm -rf looking-glass dist/
 
 # Build a beta version of looking-glass
 .PHONY: build
@@ -17,19 +17,19 @@ test: fmt lint vet test-unit
 # Run a test release with goreleaser
 .PHONY: test-release
 test-release:
-	@goreleaser --snapshot --skip-publish --rm-dist
+	goreleaser --snapshot --skip-publish --rm-dist
 
 # Run unit tests
 .PHONY: test-unit
 test-unit:
-	@go test -v -race ./...
+	go test -v -race ./...
 
 # Clean go.mod
 .PHONY: go-mod-tidy
 go-mod-tidy: build
-	@go mod tidy
-	@git diff HEAD
-	@git diff --exit-code
+	go mod tidy
+	git diff HEAD
+	git diff --exit-code
 
 # Check formatting
 .PHONY: fmt
@@ -39,12 +39,12 @@ fmt:
 # Run linter
 .PHONY: lint
 lint:
-	@golint -set_exit_status ./...
+	golint -set_exit_status ./...
 
 # Run vet
 .PHONY: vet
 vet:
-	@go vet ./...
+	go vet ./...
 
 # For use in ci
 .PHONY: ci

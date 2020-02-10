@@ -24,6 +24,13 @@ test-release:
 test-unit:
 	go test -v -race ./...
 
+# Clean go.mod
+.PHONY: go-mod-tidy
+go-mod-tidy: build
+	go mod tidy
+	git diff HEAD
+	git diff --exit-code
+
 # Check formatting
 .PHONY: fmt
 fmt:
@@ -41,7 +48,7 @@ vet:
 
 # For use in ci
 .PHONY: ci
-ci: build test
+ci: build test go-mod-tidy
 
 # Create a git tag
 .PHONY: tag

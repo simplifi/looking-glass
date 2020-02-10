@@ -8,7 +8,6 @@ go:
 
 before_script:
   - go get -u golang.org/x/lint/golint
-  - curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh
 
 script:
   - make ci
@@ -17,7 +16,7 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: make release
+    script: curl -sL https://git.io/goreleaser | bash
     on:
       tags: true
       condition: $TRAVIS_OS_NAME = linux

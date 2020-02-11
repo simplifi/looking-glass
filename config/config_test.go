@@ -33,7 +33,7 @@ agents:
 	cfg, err := Read(tmpfile.Name())
 	assert.NoError(t, err)
 
-	assert.Equal(t, "http://my.artifactory.server/artifactory/", cfg.Artifactory.Url)
+	assert.Equal(t, "http://my.artifactory.server/artifactory/", cfg.Artifactory.URL)
 	assert.Equal(t, "my-artifactory-user", cfg.Artifactory.UserName)
 	assert.Equal(t, "my-artifactory-key", cfg.Artifactory.Key)
 	assert.Equal(t, "my-agent-name", cfg.Agents[0].Name)
@@ -44,6 +44,5 @@ agents:
 	assert.Equal(t, "us-west-2", cfg.Agents[0].AwsRegion)
 	assert.Equal(t, 900, cfg.Agents[0].SleepDuration)
 	assert.Equal(t, "my-repo", cfg.Agents[0].ArtifactoryRepo)
-
 
 }

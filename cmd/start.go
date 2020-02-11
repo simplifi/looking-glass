@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/simplifi/looking-glass/config"
 	"github.com/simplifi/looking-glass/agent"
+	"github.com/simplifi/looking-glass/config"
 	"github.com/spf13/cobra"
 	"log"
 )

@@ -16,3 +16,6 @@ looking-glass
 
 # JetBrains
 .idea
+
+# GoReleaser
+dist

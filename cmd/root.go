@@ -16,6 +16,7 @@ var (
 func init() {
 }
 
+// Execute the root command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

@@ -23,28 +23,32 @@ agents:
     sleep_duration: 900
 */
 
+// Config is used to store configuration for the Agents
 type Config struct {
 	Artifactory ArtifactoryConfig `mapstructure:"artifactory"`
 	Agents      []AgentConfig     `mapstructure:"agents"`
 }
 
+// ArtifactoryConfig holds Artifactory specific configuration
 type ArtifactoryConfig struct {
-	Url      string `mapstructure:"url"`
+	URL      string `mapstructure:"url"`
 	UserName string `mapstructure:"username"`
 	Key      string `mapstructure:"key"`
 }
 
+// AgentConfig holds Agent specific configuration
 type AgentConfig struct {
-	Name            string   `mapstructure:"name"`
-	ArtifactoryRepo string   `mapstructure:"artifactory_repo"`
-	AwsBucket       string   `mapstructure:"aws_bucket"`
-	AwsPrefix       string   `mapstructure:"aws_prefix"`
-	AwsKey          string   `mapstructure:"aws_key"`
-	AwsSecret       string   `mapstructure:"aws_secret"`
-	AwsRegion       string   `mapstructure:"aws_region"`
-	SleepDuration   int      `mapstructure:"sleep_duration"`
+	Name            string `mapstructure:"name"`
+	ArtifactoryRepo string `mapstructure:"artifactory_repo"`
+	AwsBucket       string `mapstructure:"aws_bucket"`
+	AwsPrefix       string `mapstructure:"aws_prefix"`
+	AwsKey          string `mapstructure:"aws_key"`
+	AwsSecret       string `mapstructure:"aws_secret"`
+	AwsRegion       string `mapstructure:"aws_region"`
+	SleepDuration   int    `mapstructure:"sleep_duration"`
 }
 
+// Read a config file and return a Config
 func Read(configPath string) (*Config, error) {
 	configFile, readErr := os.Open(configPath)
 	if readErr != nil {

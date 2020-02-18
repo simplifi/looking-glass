@@ -1,5 +1,7 @@
 # looking-glass
 
+[![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass)
+
 Looking Glass is a tool for mirroring objects to Artifactory.  Currently only S3 is supported as a source, but FTP support will be added in the near future.
 
 ## Why would you want to do this?

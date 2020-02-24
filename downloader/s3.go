@@ -44,13 +44,13 @@ func validateConfig(config config.DownloaderConfig) error {
 		return fmt.Errorf("configuration value cannot be empty: AwsSecret")
 	}
 	if config.AwsRegion == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsSecret")
+		return fmt.Errorf("configuration value cannot be empty: AwsRegion")
 	}
 	if config.AwsPrefix == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsKey")
+		return fmt.Errorf("configuration value cannot be empty: AwsPrefix")
 	}
 	if config.AwsBucket == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsKey")
+		return fmt.Errorf("configuration value cannot be empty: AwsBucket")
 	}
 	return nil
 }

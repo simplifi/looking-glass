@@ -40,20 +40,20 @@ type ArtifactoryConfig struct {
 
 // DownloaderConfig holds the configuration for the various downloaders
 type DownloaderConfig struct {
-	Type            string `mapstructure:"type"`
-	AwsBucket       string `mapstructure:"aws_bucket"`
-	AwsPrefix       string `mapstructure:"aws_prefix"`
-	AwsKey          string `mapstructure:"aws_key"`
-	AwsSecret       string `mapstructure:"aws_secret"`
-	AwsRegion       string `mapstructure:"aws_region"`
+	Type      string `mapstructure:"type"`
+	AwsBucket string `mapstructure:"aws_bucket"`
+	AwsPrefix string `mapstructure:"aws_prefix"`
+	AwsKey    string `mapstructure:"aws_key"`
+	AwsSecret string `mapstructure:"aws_secret"`
+	AwsRegion string `mapstructure:"aws_region"`
 }
 
 // AgentConfig holds Agent specific configuration
 type AgentConfig struct {
-	Name             string           `mapstructure:"name"`
-	ArtifactoryRepo  string           `mapstructure:"artifactory_repo"`
-	Downloader       DownloaderConfig `mapstructure:"downloader"`
-	SleepDuration    int              `mapstructure:"sleep_duration"`
+	Name            string           `mapstructure:"name"`
+	ArtifactoryRepo string           `mapstructure:"artifactory_repo"`
+	Downloader      DownloaderConfig `mapstructure:"downloader"`
+	SleepDuration   int              `mapstructure:"sleep_duration"`
 }
 
 // Read a config file and return a Config

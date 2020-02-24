@@ -64,6 +64,7 @@ func createAwsSession(awsKey string, awsSecret string, awsRegion string) (*sessi
 	return sess, err
 }
 
+// ListObjects lists the objects available in the S3 bucket
 func (s3s *s3) ListObjects() ([]string, error) {
 	var objects []string
 
@@ -84,6 +85,7 @@ func (s3s *s3) ListObjects() ([]string, error) {
 	return objects, nil
 }
 
+// GetObject downloads the object specified in sourceObj to the targetPath
 func (s3s *s3) GetObject(sourceObj string, targetPath string) error {
 	downloader := s3manager.NewDownloader(&s3s.awsSession)
 

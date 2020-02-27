@@ -65,7 +65,7 @@ func TestAgentBadDownloadType(t *testing.T) {
 	}
 }
 
-func TestAgentMissingRequiredS3Config(t *testing.T) {
+func TestAgentMissingRequiredS3Configs(t *testing.T) {
 	testArtifactoryCfg := config.ArtifactoryConfig{
 		URL:      "http://foo.bar",
 		UserName: "testing",
@@ -77,7 +77,6 @@ func TestAgentMissingRequiredS3Config(t *testing.T) {
 		AwsBucket: "test-bucket",
 		AwsPrefix: "test-prefix",
 		AwsSecret: "MYAWSSECRET",
-		AwsRegion: "us-west-2",
 	}
 
 	testAgentConfig := config.AgentConfig{
@@ -87,7 +86,7 @@ func TestAgentMissingRequiredS3Config(t *testing.T) {
 		SleepDuration:   100,
 	}
 
-	expectedError := fmt.Errorf("configuration value cannot be empty: AwsKey")
+	expectedError := fmt.Errorf("configuration values cannot be empty: AwsKey, AwsRegion")
 	_, err := New(testArtifactoryCfg, testAgentConfig)
 	if assert.Error(t, err) {
 		assert.Equal(t, expectedError, err)

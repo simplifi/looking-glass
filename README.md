@@ -27,13 +27,15 @@ artifactory:
   key: my-artifactory-key
 agents:
   - name: my-agent-name
-    aws_bucket: my-s3-bucket
-    aws_key: my-aws-key
-    aws_secret: my-aws-secret
-    aws_prefix: my-prefix
-    aws_region: us-west-2
     artifactory_repo: my-repo
     sleep_duration: 900
+    downloader:
+      type: s3
+      aws_bucket: my-s3-bucket
+      aws_key: my-aws-key
+      aws_secret: my-aws-secret
+      aws_prefix: my-prefix
+      aws_region: us-west-2
 ```
 
 ### `artifactory`
@@ -45,19 +47,23 @@ This is where you tell looking-glass how to talk to your Artifactory server
 ### `agents`
 This is where you tell looking-glass about the agent(s) configuration
 - `name` - The name of this agent, mainly used in logging
+- `artifactory_repo` - The name of the Artifactory repo which will be the destination for the mirrored objects
+- `sleep_duration` - How long to wait before polling the for changes (in seconds)
+
+### `agents.downloader`
+This is where you tell looking-glass how to download objects
+- `type` -  The type of downloader that you with to run (currently only s3)
 - `aws_bucket` - The bucket from which you wish to mirror
 - `aws_key` - The AWS Key ID to use when authenticating with S3
 - `aws_secret` - The AWS Secret Key to use when authenticating with S3
 - `aws_prefix` - The prefix to mirror from the S3 bucket
 - `aws_region` - The region in which the S3 bucket exists
-- `artifactory_repo` - The name of the Artifactory repo which will be the destination for the mirrored objects
-- `sleep_duration` - How long to wait before polling the S3 bucket for changes (in seconds)
 
 # Usage
 
 ### Basic Usage
 ```
-Looking Glass (S3->Artifactory Mirror)
+Looking Glass (Artifactory Mirror)
 
 Usage:
   looking-glass [command]

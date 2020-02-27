@@ -14,13 +14,15 @@ artifactory:
   key: my-artifactory-key
 agents:
   - name: my-agent-name
-    aws_bucket: my-s3-bucket
-    aws_key: my-aws-key
-    aws_secret: my-aws-secret
-    aws_prefix: my-prefix
-    aws_region: us-west-2
     artifactory_repo: my-repo
     sleep_duration: 900
+    downloader:
+      type: s3
+      aws_bucket: my-s3-bucket
+      aws_key: my-aws-key
+      aws_secret: my-aws-secret
+      aws_prefix: my-prefix
+      aws_region: us-west-2
 */
 
 // Config is used to store configuration for the Agents
@@ -36,16 +38,22 @@ type ArtifactoryConfig struct {
 	Key      string `mapstructure:"key"`
 }
 
+// DownloaderConfig holds the configuration for the various downloaders
+type DownloaderConfig struct {
+	Type      string `mapstructure:"type"`
+	AwsBucket string `mapstructure:"aws_bucket"`
+	AwsPrefix string `mapstructure:"aws_prefix"`
+	AwsKey    string `mapstructure:"aws_key"`
+	AwsSecret string `mapstructure:"aws_secret"`
+	AwsRegion string `mapstructure:"aws_region"`
+}
+
 // AgentConfig holds Agent specific configuration
 type AgentConfig struct {
-	Name            string `mapstructure:"name"`
-	ArtifactoryRepo string `mapstructure:"artifactory_repo"`
-	AwsBucket       string `mapstructure:"aws_bucket"`
-	AwsPrefix       string `mapstructure:"aws_prefix"`
-	AwsKey          string `mapstructure:"aws_key"`
-	AwsSecret       string `mapstructure:"aws_secret"`
-	AwsRegion       string `mapstructure:"aws_region"`
-	SleepDuration   int    `mapstructure:"sleep_duration"`
+	Name            string           `mapstructure:"name"`
+	ArtifactoryRepo string           `mapstructure:"artifactory_repo"`
+	Downloader      DownloaderConfig `mapstructure:"downloader"`
+	SleepDuration   int              `mapstructure:"sleep_duration"`
 }
 
 // Read a config file and return a Config

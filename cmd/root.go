@@ -9,7 +9,7 @@ import (
 var (
 	rootCmd = &cobra.Command{
 		Use:   "looking-glass",
-		Short: "Looking Glass (S3->Artifactory Mirror)",
+		Short: "Looking Glass (Artifactory Mirror)",
 	}
 )
 

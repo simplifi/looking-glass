@@ -39,7 +39,7 @@ func newS3(config config.DownloaderConfig) (Downloader, error) {
 
 func validateConfig(config config.DownloaderConfig) error {
 	requiredConfigs := map[string]string{
-		"AwsKey": config.AwsKey,
+		"AwsKey":    config.AwsKey,
 		"AwsSecret": config.AwsSecret,
 		"AwsRegion": config.AwsRegion,
 		"AwsPrefix": config.AwsPrefix,

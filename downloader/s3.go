@@ -10,6 +10,7 @@ import (
 	"github.com/simplifi/looking-glass/config"
 	"os"
 	"path"
+	"strings"
 )
 
 type s3 struct {
@@ -37,21 +38,28 @@ func newS3(config config.DownloaderConfig) (Downloader, error) {
 }
 
 func validateConfig(config config.DownloaderConfig) error {
-	if config.AwsKey == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsKey")
+	requiredConfigs := map[string]string{
+		"AwsKey": config.AwsKey,
+		"AwsSecret": config.AwsSecret,
+		"AwsRegion": config.AwsRegion,
+		"AwsPrefix": config.AwsPrefix,
+		"AwsBucket": config.AwsBucket,
 	}
-	if config.AwsSecret == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsSecret")
+
+	var missingConfigs []string
+
+	// Check for configs that are not set
+	for cfgName, cfgValue := range requiredConfigs {
+		if cfgValue == "" {
+			missingConfigs = append(missingConfigs, cfgName)
+		}
 	}
-	if config.AwsRegion == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsRegion")
+
+	// Error on all the missing configs
+	if len(missingConfigs) > 0 {
+		return fmt.Errorf("configuration values cannot be empty: %s", strings.Join(missingConfigs, ", "))
 	}
-	if config.AwsPrefix == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsPrefix")
-	}
-	if config.AwsBucket == "" {
-		return fmt.Errorf("configuration value cannot be empty: AwsBucket")
-	}
+
 	return nil
 }
 

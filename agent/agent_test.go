@@ -77,6 +77,7 @@ func TestAgentMissingRequiredS3Configs(t *testing.T) {
 		AwsBucket: "test-bucket",
 		AwsPrefix: "test-prefix",
 		AwsSecret: "MYAWSSECRET",
+		AwsRegion: "us-west-2",
 	}
 
 	testAgentConfig := config.AgentConfig{
@@ -86,7 +87,7 @@ func TestAgentMissingRequiredS3Configs(t *testing.T) {
 		SleepDuration:   100,
 	}
 
-	expectedError := fmt.Errorf("configuration values cannot be empty: AwsKey, AwsRegion")
+	expectedError := fmt.Errorf("configuration values cannot be empty: AwsKey")
 	_, err := New(testArtifactoryCfg, testAgentConfig)
 	if assert.Error(t, err) {
 		assert.Equal(t, expectedError, err)

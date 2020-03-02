@@ -33,6 +33,11 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 		return nil, err
 	}
 
+	err = validateGithubConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	client := createGithubClient(cfg.GithubToken)
 
 	// Repo is stored in the configuration as "owner/repo_name" so we split it out here
@@ -45,6 +50,29 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 	}
 
 	return downloader, nil
+}
+
+// validateGithubConfig validates the the configuration is not missing any required values
+func validateGithubConfig(cfg githubDownloaderConfig) error {
+	requiredConfigs := map[string]string{
+		"GithubRepo": cfg.GithubRepo,
+	}
+
+	var missingConfigs []string
+
+	// Check for configs that are not set
+	for cfgName, cfgValue := range requiredConfigs {
+		if cfgValue == "" {
+			missingConfigs = append(missingConfigs, cfgName)
+		}
+	}
+
+	// Error on all the missing configs
+	if len(missingConfigs) > 0 {
+		return fmt.Errorf("configuration values cannot be empty: %s", strings.Join(missingConfigs, ", "))
+	}
+
+	return nil
 }
 
 // createGithubClient creates a new Github client to be used by the github downloader

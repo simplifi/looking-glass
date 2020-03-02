@@ -31,18 +31,20 @@ agents:
     sleep_duration: 900
     downloader:
       type: s3
-      aws_bucket: my-s3-bucket
-      aws_key: my-aws-key
-      aws_secret: my-aws-secret
-      aws_prefix: my-prefix
-      aws_region: us-west-2
+      config:
+        aws_bucket: my-s3-bucket
+        aws_key: my-aws-key
+        aws_secret: my-aws-secret
+        aws_prefix: my-prefix
+        aws_region: us-west-2
   - name: my-github-agent
     artifactory_repo: my-repo-github
     sleep_duration: 900
     downloader:
       type: github
-      github_repo: simplifi/looking-glass
-      github_token: my-github-token
+      config:
+        github_repo: simplifi/looking-glass
+        github_token: my-github-token
 ```
 
 ### `artifactory`
@@ -60,17 +62,17 @@ This is where you tell looking-glass about the agent(s) configuration
 ### `agents.downloader` (s3)
 This is where you tell looking-glass how to download objects from s3
 - `type` -  The type of downloader that you with to run (`s3` in this case)
-- `aws_bucket` - The bucket from which you wish to mirror
-- `aws_key` - The AWS Key ID to use when authenticating with S3
-- `aws_secret` - The AWS Secret Key to use when authenticating with S3
-- `aws_prefix` - The prefix to mirror from the S3 bucket
-- `aws_region` - The region in which the S3 bucket exists
+- `config.aws_bucket` - The bucket from which you wish to mirror
+- `config.aws_key` - The AWS Key ID to use when authenticating with S3
+- `config.aws_secret` - The AWS Secret Key to use when authenticating with S3
+- `config.aws_prefix` - The prefix to mirror from the S3 bucket
+- `config.aws_region` - The region in which the S3 bucket exists
 
 ### `agents.downloader` (github)
 This is where you tell looking-glass how to download assets from Github
 - `type` -  The type of downloader that you with to run (`github` in this case)
-- `github_repo` - The github repo (in the form of `owner/repo_name`) from which to pull release assets 
-- `github_token` - (optional) The token to authenticate with when pulling release assets
+- `config.github_repo` - The github repo (in the form of `owner/repo_name`) from which to pull release assets 
+- `config.github_token` - (optional) The token to authenticate with when pulling release assets
 
 # Usage
 

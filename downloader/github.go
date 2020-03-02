@@ -14,7 +14,7 @@ import (
 )
 
 type githubDownloader struct {
-	client    github.Client
+	client    *github.Client
 	repoOwner string
 	repoName  string
 }
@@ -31,13 +31,13 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 	// Repo is stored in the configuration as "owner/repo_name" so we split it out here
 	repo := strings.Split(config.GithubRepo, "/")
 
-	downloader := githubDownloader{
-		client:    *client,
+	downloader := &githubDownloader{
+		client:    client,
 		repoOwner: repo[0],
 		repoName:  repo[1],
 	}
 
-	return &downloader, nil
+	return downloader, nil
 }
 
 // validateGithubConfig validates the the configuration is not missing any required values

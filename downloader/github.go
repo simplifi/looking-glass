@@ -3,6 +3,7 @@ package downloader
 import (
 	"fmt"
 	"github.com/google/go-github/v29/github"
+	"github.com/mitchellh/mapstructure"
 	"github.com/simplifi/looking-glass/config"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
@@ -13,6 +14,11 @@ import (
 	"strings"
 )
 
+type githubDownloaderConfig struct {
+	GithubRepo  string `mapstructure:"github_repo"`
+	GithubToken string `mapstructure:"github_token"`
+}
+
 type githubDownloader struct {
 	client    *github.Client
 	repoOwner string
@@ -21,15 +27,16 @@ type githubDownloader struct {
 
 // newGithub returns an initialized githubDownloader struct
 func newGithub(config config.DownloaderConfig) (Downloader, error) {
-	err := validateGithubConfig(config)
+	var cfg githubDownloaderConfig
+	err := mapstructure.Decode(config.Config, &cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	client := createGithubClient(config.GithubToken)
+	client := createGithubClient(cfg.GithubToken)
 
 	// Repo is stored in the configuration as "owner/repo_name" so we split it out here
-	repo := strings.Split(config.GithubRepo, "/")
+	repo := strings.Split(cfg.GithubRepo, "/")
 
 	downloader := &githubDownloader{
 		client:    client,
@@ -38,29 +45,6 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 	}
 
 	return downloader, nil
-}
-
-// validateGithubConfig validates the the configuration is not missing any required values
-func validateGithubConfig(config config.DownloaderConfig) error {
-	requiredConfigs := map[string]string{
-		"GithubRepo": config.GithubRepo,
-	}
-
-	var missingConfigs []string
-
-	// Check for configs that are not set
-	for cfgName, cfgValue := range requiredConfigs {
-		if cfgValue == "" {
-			missingConfigs = append(missingConfigs, cfgName)
-		}
-	}
-
-	// Error on all the missing configs
-	if len(missingConfigs) > 0 {
-		return fmt.Errorf("configuration values cannot be empty: %s", strings.Join(missingConfigs, ", "))
-	}
-
-	return nil
 }
 
 // createGithubClient creates a new Github client to be used by the github downloader

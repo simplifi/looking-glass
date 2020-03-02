@@ -32,9 +32,9 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 	repo := strings.Split(config.GithubRepo, "/")
 
 	downloader := githubDownloader{
-		client: *client,
+		client:    *client,
 		repoOwner: repo[0],
-		repoName: repo[1],
+		repoName:  repo[1],
 	}
 
 	return &downloader, nil
@@ -43,7 +43,7 @@ func newGithub(config config.DownloaderConfig) (Downloader, error) {
 // validateGithubConfig validates the the configuration is not missing any required values
 func validateGithubConfig(config config.DownloaderConfig) error {
 	requiredConfigs := map[string]string{
-		"GithubRepo":  config.GithubRepo,
+		"GithubRepo": config.GithubRepo,
 	}
 
 	var missingConfigs []string
@@ -100,7 +100,7 @@ func (ghd *githubDownloader) ListObjects() ([]string, error) {
 		}
 
 		for _, asset := range assets {
-			objects = append(objects, ghd.buildObjectPath( *release.TagName, *asset.Name))
+			objects = append(objects, ghd.buildObjectPath(*release.TagName, *asset.Name))
 		}
 	}
 	return objects, nil

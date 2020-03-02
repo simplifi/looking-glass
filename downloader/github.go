@@ -20,7 +20,7 @@ type s3 struct {
 }
 
 func newS3(config config.DownloaderConfig) (Downloader, error) {
-	err := validateS3Config(config)
+	err := validateConfig(config)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func newS3(config config.DownloaderConfig) (Downloader, error) {
 	return &downloader, nil
 }
 
-func validateS3Config(config config.DownloaderConfig) error {
+func validateConfig(config config.DownloaderConfig) error {
 	requiredConfigs := map[string]string{
 		"AwsKey":    config.AwsKey,
 		"AwsSecret": config.AwsSecret,

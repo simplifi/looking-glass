@@ -23,6 +23,13 @@ agents:
       aws_secret: my-aws-secret
       aws_prefix: my-prefix
       aws_region: us-west-2
+  - name: my-github-release-agent
+    artifactory_repo: my-repo
+    sleep_duration: 900
+    downloader:
+      type: github
+      github_repo: simplifi/looking-glass
+      github_token: my-github-token
 */
 
 // Config is used to store configuration for the Agents
@@ -40,12 +47,14 @@ type ArtifactoryConfig struct {
 
 // DownloaderConfig holds the configuration for the various downloaders
 type DownloaderConfig struct {
-	Type      string `mapstructure:"type"`
-	AwsBucket string `mapstructure:"aws_bucket"`
-	AwsPrefix string `mapstructure:"aws_prefix"`
-	AwsKey    string `mapstructure:"aws_key"`
-	AwsSecret string `mapstructure:"aws_secret"`
-	AwsRegion string `mapstructure:"aws_region"`
+	Type        string `mapstructure:"type"`
+	AwsBucket   string `mapstructure:"aws_bucket"`
+	AwsPrefix   string `mapstructure:"aws_prefix"`
+	AwsKey      string `mapstructure:"aws_key"`
+	AwsSecret   string `mapstructure:"aws_secret"`
+	AwsRegion   string `mapstructure:"aws_region"`
+	GithubRepo  string `mapstructure:"github_repo"`
+	GithubToken string `mapstructure:"github_token"`
 }
 
 // AgentConfig holds Agent specific configuration

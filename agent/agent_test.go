@@ -16,7 +16,7 @@ func TestAgentNew(t *testing.T) {
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
 		Type: "s3",
-		Config: map[string]interface{}{
+		Config: map[interface{}]interface{}{
 			"aws_bucket": "test-bucket",
 			"aws_key":    "MYAWSKEY",
 			"aws_prefix": "test-prefix",
@@ -46,7 +46,7 @@ func TestAgentBadDownloadType(t *testing.T) {
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
 		Type: "not-a-valid-type",
-		Config: map[string]interface{}{
+		Config: map[interface{}]interface{}{
 			"aws_bucket": "test-bucket",
 			"aws_prefix": "test-prefix",
 			"aws_secret": "MYAWSSECRET",
@@ -77,7 +77,7 @@ func TestAgentMissingRequiredS3Configs(t *testing.T) {
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
 		Type: "s3",
-		Config: map[string]interface{}{
+		Config: map[interface{}]interface{}{
 			"aws_bucket": "test-bucket",
 			"aws_prefix": "test-prefix",
 			"aws_secret": "MYAWSSECRET",

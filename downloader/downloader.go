@@ -16,6 +16,8 @@ func New(config config.DownloaderConfig) (Downloader, error) {
 	switch config.Type {
 	case "s3":
 		return newS3(config)
+	case "github":
+		return newGithub(config)
 	default:
 		return nil, fmt.Errorf("unknown type %s", config.Type)
 	}

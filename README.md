@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass)
 
-Looking Glass is a tool for mirroring objects to Artifactory.  Currently only S3 is supported as a source, but FTP support will be added in the near future.
+Looking Glass is a tool for mirroring objects to Artifactory.
 
 ## Why would you want to do this?
 
@@ -15,27 +15,36 @@ The latest version of looking-glass can be found on the [Releases](https://githu
 
 First, you'll need to create a "Generic" repository in Artifactory, and ensure you have a user that can write to it.
 
-Second, you'll need to gather up the credentials for the S3 bucket you'd like to mirror (you'll need them for the config in the next step)
+Second, you'll need to gather up the credentials for the source you'd like to mirror (you'll need them for the config in the next step)
 
-Third, create a looking-glass yaml configuration file that tells it how to talk to Artifactory/S3, and the source/destination of the objects (see details below)
+Third, create a looking-glass yaml configuration file that tells it how to talk to the source/destination of the objects (see details below)
 
-### Example Configuration:
+## Example Configuration:
 ```yaml
 artifactory:
   url: http://my.artifactory.server/artifactory/
   username: my-artifactory-user
   key: my-artifactory-key
 agents:
-  - name: my-agent-name
-    artifactory_repo: my-repo
+  - name: my-s3-agent
+    artifactory_repo: my-repo-s3
     sleep_duration: 900
     downloader:
       type: s3
-      aws_bucket: my-s3-bucket
-      aws_key: my-aws-key
-      aws_secret: my-aws-secret
-      aws_prefix: my-prefix
-      aws_region: us-west-2
+      config:
+        aws_bucket: my-s3-bucket
+        aws_key: my-aws-key
+        aws_secret: my-aws-secret
+        aws_prefix: my-prefix
+        aws_region: us-west-2
+  - name: my-github-agent
+    artifactory_repo: my-repo-github
+    sleep_duration: 900
+    downloader:
+      type: github
+      config:
+        github_repo: simplifi/looking-glass
+        github_token: my-github-token
 ```
 
 ### `artifactory`
@@ -50,14 +59,20 @@ This is where you tell looking-glass about the agent(s) configuration
 - `artifactory_repo` - The name of the Artifactory repo which will be the destination for the mirrored objects
 - `sleep_duration` - How long to wait before polling the for changes (in seconds)
 
-### `agents.downloader`
-This is where you tell looking-glass how to download objects
-- `type` -  The type of downloader that you with to run (currently only s3)
-- `aws_bucket` - The bucket from which you wish to mirror
-- `aws_key` - The AWS Key ID to use when authenticating with S3
-- `aws_secret` - The AWS Secret Key to use when authenticating with S3
-- `aws_prefix` - The prefix to mirror from the S3 bucket
-- `aws_region` - The region in which the S3 bucket exists
+### `agents.downloader` (s3)
+This is where you tell looking-glass how to download objects from s3
+- `type` -  The type of downloader that you with to run (`s3` in this case)
+- `config.aws_bucket` - The bucket from which you wish to mirror
+- `config.aws_key` - The AWS Key ID to use when authenticating with S3
+- `config.aws_secret` - The AWS Secret Key to use when authenticating with S3
+- `config.aws_prefix` - The prefix to mirror from the S3 bucket
+- `config.aws_region` - The region in which the S3 bucket exists
+
+### `agents.downloader` (github)
+This is where you tell looking-glass how to download assets from Github
+- `type` -  The type of downloader that you with to run (`github` in this case)
+- `config.github_repo` - The github repo (in the form of `owner/repo_name`) from which to pull release assets 
+- `config.github_token` - (optional) The token to authenticate with when pulling release assets
 
 # Usage
 

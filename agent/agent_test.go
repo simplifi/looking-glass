@@ -15,12 +15,14 @@ func TestAgentNew(t *testing.T) {
 	}
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
-		Type:      "s3",
-		AwsBucket: "test-bucket",
-		AwsPrefix: "test-prefix",
-		AwsKey:    "MYAWSKEY",
-		AwsSecret: "MYAWSSECRET",
-		AwsRegion: "us-west-2",
+		Type: "s3",
+		Config: map[interface{}]interface{}{
+			"aws_bucket": "test-bucket",
+			"aws_key":    "MYAWSKEY",
+			"aws_prefix": "test-prefix",
+			"aws_secret": "MYAWSSECRET",
+			"aws_region": "us-west-2",
+		},
 	}
 
 	testAgentConfig := config.AgentConfig{
@@ -43,12 +45,13 @@ func TestAgentBadDownloadType(t *testing.T) {
 	}
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
-		Type:      "not-a-valid-type",
-		AwsBucket: "test-bucket",
-		AwsPrefix: "test-prefix",
-		AwsKey:    "MYAWSKEY",
-		AwsSecret: "MYAWSSECRET",
-		AwsRegion: "us-west-2",
+		Type: "not-a-valid-type",
+		Config: map[interface{}]interface{}{
+			"aws_bucket": "test-bucket",
+			"aws_prefix": "test-prefix",
+			"aws_secret": "MYAWSSECRET",
+			"aws_region": "us-west-2",
+		},
 	}
 
 	testAgentConfig := config.AgentConfig{
@@ -73,11 +76,13 @@ func TestAgentMissingRequiredS3Configs(t *testing.T) {
 	}
 
 	testAgentDownloaderConfig := config.DownloaderConfig{
-		Type:      "s3",
-		AwsBucket: "test-bucket",
-		AwsPrefix: "test-prefix",
-		AwsSecret: "MYAWSSECRET",
-		AwsRegion: "us-west-2",
+		Type: "s3",
+		Config: map[interface{}]interface{}{
+			"aws_bucket": "test-bucket",
+			"aws_prefix": "test-prefix",
+			"aws_secret": "MYAWSSECRET",
+			"aws_region": "us-west-2",
+		},
 	}
 
 	testAgentConfig := config.AgentConfig{

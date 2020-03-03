@@ -7,11 +7,20 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	sss "github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/mitchellh/mapstructure"
 	"github.com/simplifi/looking-glass/config"
 	"os"
 	"path"
 	"strings"
 )
+
+type s3Config struct {
+	AwsBucket string `mapstructure:"aws_bucket"`
+	AwsPrefix string `mapstructure:"aws_prefix"`
+	AwsKey    string `mapstructure:"aws_key"`
+	AwsSecret string `mapstructure:"aws_secret"`
+	AwsRegion string `mapstructure:"aws_region"`
+}
 
 type s3 struct {
 	awsSession session.Session
@@ -20,30 +29,37 @@ type s3 struct {
 }
 
 func newS3(config config.DownloaderConfig) (Downloader, error) {
-	err := validateConfig(config)
+	var cfg s3Config
+	err := mapstructure.Decode(config.Config, &cfg)
 	if err != nil {
 		return nil, err
 	}
-	awsSess, err := createAwsSession(config.AwsKey, config.AwsSecret, config.AwsRegion)
+
+	err = validateS3Config(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	awsSess, err := createAwsSession(cfg.AwsKey, cfg.AwsSecret, cfg.AwsRegion)
 	if err != nil {
 		return nil, err
 	}
 	downloader := s3{
 		awsSession: *awsSess,
-		awsBucket:  config.AwsBucket,
-		awsPrefix:  config.AwsPrefix,
+		awsBucket:  cfg.AwsBucket,
+		awsPrefix:  cfg.AwsPrefix,
 	}
 
 	return &downloader, nil
 }
 
-func validateConfig(config config.DownloaderConfig) error {
+func validateS3Config(cfg s3Config) error {
 	requiredConfigs := map[string]string{
-		"AwsKey":    config.AwsKey,
-		"AwsSecret": config.AwsSecret,
-		"AwsRegion": config.AwsRegion,
-		"AwsPrefix": config.AwsPrefix,
-		"AwsBucket": config.AwsBucket,
+		"AwsKey":    cfg.AwsKey,
+		"AwsSecret": cfg.AwsSecret,
+		"AwsRegion": cfg.AwsRegion,
+		"AwsPrefix": cfg.AwsPrefix,
+		"AwsBucket": cfg.AwsBucket,
 	}
 
 	var missingConfigs []string

@@ -1,12 +1,12 @@
 # looking-glass
 
-[![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass)
+[![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass) [![Go Report Card](https://goreportcard.com/badge/github.com/simplifi/looking-glass)](https://goreportcard.com/report/github.com/simplifi/looking-glass) [![Release](https://img.shields.io/github/release/simplifi/looking-glass.svg)](https://github.com/simplifi/looking-glass/releases/latest)
 
 Looking Glass is a tool for mirroring objects to Artifactory.
 
 ## Why would you want to do this?
 
-It is common for vendors to release binaries to an S3 bucket or FTP.  To prevent 100's of servers from reaching outside our network during deployments, we had manually copied these binaries to our Artifactory instance.  Looking Glass automates this for us, so we know our Artifactory repo is always up to date! 
+It is common for vendors to release binaries to an S3 bucket or FTP.  To prevent 100's of servers from reaching outside our network during deployments, we had manually copied these binaries to our Artifactory instance.  Looking Glass automates this for us, so we know our Artifactory repo is always up to date!
 
 
 # Setup
@@ -71,7 +71,7 @@ This is where you tell looking-glass how to download objects from s3
 ### `agents.downloader` (github)
 This is where you tell looking-glass how to download assets from Github
 - `type` -  The type of downloader that you with to run (`github` in this case)
-- `config.github_repo` - The github repo (in the form of `owner/repo_name`) from which to pull release assets 
+- `config.github_repo` - The github repo (in the form of `owner/repo_name`) from which to pull release assets
 - `config.github_token` - (optional) The token to authenticate with when pulling release assets
 
 # Usage

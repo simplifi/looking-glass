@@ -1,6 +1,6 @@
 # looking-glass
 
-[![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass) [![Go Report Card](https://goreportcard.com/badge/github.com/simplifi/looking-glass)](https://goreportcard.com/report/github.com/simplifi/looking-glass) [![Release](https://img.shields.io/github/release/simplifi/looking-glass.svg?style=flat-square)](https://github.com/simplifi/looking-glass/releases/latest)
+[![Build Status](https://travis-ci.com/simplifi/looking-glass.svg?branch=master)](https://travis-ci.com/simplifi/looking-glass) [![Go Report Card](https://goreportcard.com/badge/github.com/simplifi/looking-glass)](https://goreportcard.com/report/github.com/simplifi/looking-glass) [![Release](https://img.shields.io/github/release/simplifi/looking-glass.svg)](https://github.com/simplifi/looking-glass/releases/latest)
 
 Looking Glass is a tool for mirroring objects to Artifactory.
 

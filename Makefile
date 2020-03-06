@@ -45,7 +45,7 @@ clean:
 # Build a beta version of looking-glass
 .PHONY: build
 build: clean
-	CGO_ENABLED=0 go build
+	CGO_ENABLED=0 go build ./cmd/looking-glass
 
 # Create a git tag
 .PHONY: tag

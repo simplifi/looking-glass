@@ -10,7 +10,7 @@ before_script:
   - GO111MODULE=off go get -u golang.org/x/lint/golint
 
 script:
-  - make ci
+  - make
 
 # Calls goreleaser to build and push artifacts
 deploy:

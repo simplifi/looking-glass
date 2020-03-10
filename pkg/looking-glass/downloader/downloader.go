@@ -2,7 +2,8 @@ package downloader
 
 import (
 	"fmt"
-	"github.com/simplifi/looking-glass/config"
+
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
 )
 
 // Downloader downloads objects from various sources

@@ -1,8 +1,9 @@
-package cmd
+package cli
 
 import (
 	"fmt"
-	"github.com/simplifi/looking-glass/version"
+
+	"github.com/simplifi/looking-glass/pkg/looking-glass/version"
 	"github.com/spf13/cobra"
 )
 

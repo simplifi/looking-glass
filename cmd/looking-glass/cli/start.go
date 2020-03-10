@@ -1,10 +1,11 @@
-package cmd
+package cli
 
 import (
-	"github.com/simplifi/looking-glass/agent"
-	"github.com/simplifi/looking-glass/config"
-	"github.com/spf13/cobra"
 	"log"
+
+	"github.com/simplifi/looking-glass/pkg/looking-glass/agent"
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
+	"github.com/spf13/cobra"
 )
 
 var (

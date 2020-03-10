@@ -1,23 +1,10 @@
 TAG?=""
 
-# Clean up any cruft left over from old builds
-.PHONY: clean
-clean:
-	rm -rf looking-glass dist/
-
-# Build a beta version of looking-glass
-.PHONY: build
-build: clean
-	CGO_ENABLED=0 go build
+.DEFAULT_GOAL := test
 
 # Run all tests
 .PHONY: test
-test: fmt lint vet test-unit
-
-# Run a test release with goreleaser
-.PHONY: test-release
-test-release:
-	goreleaser --snapshot --skip-publish --rm-dist
+test: fmt lint vet test-unit go-mod-tidy
 
 # Run unit tests
 .PHONY: test-unit
@@ -26,10 +13,9 @@ test-unit:
 
 # Clean go.mod
 .PHONY: go-mod-tidy
-go-mod-tidy: build
+go-mod-tidy:
 	go mod tidy
-	git diff HEAD
-	git diff --exit-code
+	git diff --exit-code go.sum
 
 # Check formatting
 .PHONY: fmt
@@ -46,9 +32,20 @@ lint:
 vet:
 	go vet ./...
 
-# For use in ci
-.PHONY: ci
-ci: build test go-mod-tidy
+# Run a test release with goreleaser
+.PHONY: test-release
+test-release:
+	goreleaser --snapshot --skip-publish --rm-dist
+
+# Clean up any cruft left over from old builds
+.PHONY: clean
+clean:
+	rm -rf looking-glass dist/
+
+# Build a beta version of looking-glass
+.PHONY: build
+build: clean
+	CGO_ENABLED=0 go build ./cmd/looking-glass
 
 # Create a git tag
 .PHONY: tag

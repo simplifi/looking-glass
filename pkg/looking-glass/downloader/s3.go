@@ -2,16 +2,17 @@ package downloader
 
 import (
 	"fmt"
+	"os"
+	"path"
+	"strings"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	sss "github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/mitchellh/mapstructure"
-	"github.com/simplifi/looking-glass/config"
-	"os"
-	"path"
-	"strings"
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
 )
 
 type s3Config struct {

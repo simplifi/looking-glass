@@ -2,16 +2,17 @@ package downloader
 
 import (
 	"fmt"
-	"github.com/google/go-github/v29/github"
-	"github.com/mitchellh/mapstructure"
-	"github.com/simplifi/looking-glass/config"
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2"
 	"io"
 	"net/http"
 	"os"
 	"path"
 	"strings"
+
+	"github.com/google/go-github/v29/github"
+	"github.com/mitchellh/mapstructure"
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
 )
 
 type githubDownloaderConfig struct {

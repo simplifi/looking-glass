@@ -2,16 +2,17 @@ package agent
 
 import (
 	"fmt"
-	"github.com/jfrog/jfrog-client-go/artifactory"
-	"github.com/jfrog/jfrog-client-go/artifactory/auth"
-	"github.com/jfrog/jfrog-client-go/artifactory/services"
-	aflog "github.com/jfrog/jfrog-client-go/utils/log"
-	"github.com/simplifi/looking-glass/config"
-	"github.com/simplifi/looking-glass/downloader"
 	"log"
 	"os"
 	"path"
 	"time"
+
+	"github.com/jfrog/jfrog-client-go/artifactory"
+	"github.com/jfrog/jfrog-client-go/artifactory/auth"
+	"github.com/jfrog/jfrog-client-go/artifactory/services"
+	aflog "github.com/jfrog/jfrog-client-go/utils/log"
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
+	"github.com/simplifi/looking-glass/pkg/looking-glass/downloader"
 )
 
 // Agent monitors a source for changes and pushes files to Artifactory

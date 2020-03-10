@@ -2,9 +2,10 @@ package agent
 
 import (
 	"fmt"
-	"github.com/simplifi/looking-glass/config"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/simplifi/looking-glass/pkg/looking-glass/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAgentNew(t *testing.T) {

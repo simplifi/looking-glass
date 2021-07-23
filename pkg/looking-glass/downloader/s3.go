@@ -92,19 +92,21 @@ func createAwsSession(awsKey string, awsSecret string, awsRegion string) (*sessi
 // ListObjects lists the objects available in the S3 bucket
 func (s3s *s3) ListObjects() ([]string, error) {
 	var objects []string
+	path := &sss.ListObjectsV2Input{
+		Bucket: aws.String(s3s.awsBucket),
+		Prefix: aws.String(s3s.awsPrefix),
+	}
 
-	resp, err := sss.New(&s3s.awsSession).
-		ListObjects(&sss.ListObjectsInput{
-			Bucket: aws.String(s3s.awsBucket),
-			Prefix: aws.String(s3s.awsPrefix),
+	err := sss.New(&s3s.awsSession).
+		ListObjectsV2Pages(path, func(page *sss.ListObjectsV2Output, lastPage bool) bool {
+			for _, obj := range page.Contents {
+				objects = append(objects, *obj.Key)
+			}
+			return lastPage
 		})
 
 	if err != nil {
 		return nil, err
-	}
-
-	for _, obj := range resp.Contents {
-		objects = append(objects, *obj.Key)
 	}
 
 	return objects, nil

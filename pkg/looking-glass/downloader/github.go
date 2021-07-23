@@ -186,6 +186,11 @@ func (ghd *githubDownloader) GetObject(sourceObj string, targetPath string) erro
 
 	// Download the asset
 	rc, _, err := ghd.client.Repositories.DownloadReleaseAsset(ctx, ghd.repoOwner, ghd.repoName, assetID, http.DefaultClient)
+
+	if err != nil {
+		return err
+	}
+
 	_, err = io.Copy(f, rc)
 
 	if err != nil {

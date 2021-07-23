@@ -102,7 +102,7 @@ func (s3s *s3) ListObjects() ([]string, error) {
 			for _, obj := range page.Contents {
 				objects = append(objects, *obj.Key)
 			}
-			return lastPage
+			return !lastPage
 		})
 
 	if err != nil {
